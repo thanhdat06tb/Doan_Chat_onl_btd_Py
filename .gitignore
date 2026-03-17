@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+chat.db
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+brain/
