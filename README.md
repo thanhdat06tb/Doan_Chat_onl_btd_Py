@@ -39,13 +39,16 @@ Mọi tin nhắn từ client sẽ gửi tới **Server**, sau đó server sẽ p
 ```
 chat-server-project
 │
-├── server.py          # Chương trình Server
-├── client.py          # Chương trình Client
-├── gui_client.py      # Giao diện Tkinter
-├── database.py        # Quản lý dữ liệu (nếu có)
+├── server.py          # Server (Flask + SocketIO + TCP Bridge)
+├── client.py          # Entry point chạy giao diện Desktop
+├── ui_client.py       # Giao diện Desktop (Tkinter)
+├── chat.db            # Database SQLite lưu lịch sử chat
 │
-├── images             # Ảnh demo
+├── templates/         # Template HTML cho Web Chat
+│   └── index.html
+├── img/               # Ảnh demo
 │
+├── requirements.txt   # Thư viện cần cài đặt
 └── README.md
 ```
 
@@ -53,34 +56,90 @@ chat-server-project
 
 # 🚀 Cách chạy chương trình
 
+## 0️⃣ Cài đặt thư viện
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
 ## 1️⃣ Chạy Server
 
 ```bash
 python server.py
 ```
 
-Server sẽ chạy tại:
+Server sẽ khởi động:
 
-```
-127.0.0.1:55555
-```
+* **Web Chat:** `http://localhost:5000`
+* **Desktop TCP Bridge:** Port `5555`
 
 ---
 
-## 2️⃣ Chạy Client
+## 2️⃣ Chạy Client Desktop (Tkinter)
 
 ```bash
 python client.py
 ```
 
+Nhập **IP server** (mặc định `127.0.0.1`) và **nickname**, sau đó bấm **Kết nối**.
+
+---
+
+## 3️⃣ 📱 Chạy trên Điện thoại (qua WiFi)
+
+Ứng dụng hỗ trợ truy cập từ điện thoại thông qua trình duyệt web, chỉ cần cùng mạng WiFi.
+
+### Các bước thực hiện:
+
+**Bước 1:** Đảm bảo server đang chạy trên máy tính
+
+```bash
+python server.py
+```
+
+**Bước 2:** Tìm địa chỉ IP của máy tính
+
+```bash
+# Windows
+ipconfig
+
+# Tìm dòng "IPv4 Address" của adapter WiFi
+# Ví dụ: 192.168.1.100
+```
+
+**Bước 3:** Kết nối điện thoại vào **cùng mạng WiFi** với máy tính
+
+**Bước 4:** Mở trình duyệt trên điện thoại và truy cập:
+
+```
+http://<IP_máy_tính>:5000
+```
+
+Ví dụ: `http://192.168.1.100:5000`
+
+**Bước 5:** Nhập nickname và bắt đầu chat! 🎉
+
+### ⚠️ Lưu ý quan trọng:
+
+* Điện thoại và máy tính phải kết nối **cùng một mạng WiFi**
+* Nếu không truy cập được, hãy kiểm tra **Windows Firewall**:
+  * Mở **Windows Defender Firewall** → **Advanced Settings**
+  * Thêm **Inbound Rule** cho phép kết nối qua **Port 5000** (TCP)
+  * Hoặc tạm tắt Firewall để test
+
 ---
 
 # 💡 Chức năng hệ thống
 
-* Kết nối nhiều client
-* Gửi và nhận tin nhắn
-* Chat thời gian thực
-* Hiển thị danh sách người dùng
+* Kết nối nhiều client đồng thời (Web + Desktop)
+* Gửi và nhận tin nhắn thời gian thực
+* Lưu lịch sử chat vào database SQLite
+* 📱 **Hỗ trợ truy cập từ điện thoại** qua trình duyệt (WiFi)
+* Giao diện Web hiện đại (Flask + SocketIO)
+* Giao diện Desktop (Tkinter + TCP Socket)
+* Hiển thị số người online
 
 ---
 
